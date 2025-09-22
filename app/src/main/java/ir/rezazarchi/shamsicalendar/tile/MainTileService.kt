@@ -1,5 +1,6 @@
 package ir.rezazarchi.shamsicalendar.tile
 
+import android.util.Log
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.DimensionBuilders.wrap
 import androidx.wear.protolayout.LayoutElementBuilders
@@ -18,12 +19,13 @@ import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
-import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import ir.rezazarchi.shamsicalendar.utils.Utils.getCurrentDayColor
 import ir.rezazarchi.shamsicalendar.utils.Utils.getCurrentDayEvents
 import ir.rezazarchi.shamsicalendar.utils.Utils.getFullJalaliDateString
 import java.lang.Integer.MAX_VALUE
+import java.util.concurrent.Executor
+import java.util.concurrent.TimeUnit
 
 private const val RESOURCES_VERSION = "1"
 
@@ -38,7 +40,7 @@ class MainTileService : TileService() {
 
     override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> {
         val events = getCurrentDayEvents(applicationContext)
-        return Futures.immediateFuture(
+        return ImmediateFuture(
             Tile.Builder()
                 .setResourcesVersion(RESOURCES_VERSION)
                 .setTileTimeline(
@@ -89,11 +91,24 @@ class MainTileService : TileService() {
 
     override fun onTileResourcesRequest(requestParams: RequestBuilders.ResourcesRequest)
             : ListenableFuture<Resources> {
-        return Futures.immediateFuture(
+        return ImmediateFuture(
             Resources.Builder()
                 .setVersion(RESOURCES_VERSION)
                 .build()
         )
+    }
+
+    // Akin to https://github.com/google/guava/blob/master/android/guava/src/com/google/common/util/concurrent/ImmediateFuture.java
+    // Tile interface needs ListenableFuture and this is a bare minimum one
+    class ImmediateFuture<T>(private val value: T) : ListenableFuture<T> {
+        override fun cancel(mayInterruptIfRunning: Boolean): Boolean = false
+        override fun get(): T = value
+        override fun get(timeout: Long, unit: TimeUnit): T = value
+        override fun isCancelled(): Boolean = false
+        override fun isDone(): Boolean = true
+        override fun addListener(listener: Runnable, executor: Executor) {
+            runCatching { executor.execute(listener) }.onFailure { Log.e("Future", "", it) }
+        }
     }
 
 }

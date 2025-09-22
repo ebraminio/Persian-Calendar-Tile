@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.org.jetbrains.kotlin.compose)
 }
 
 android {
@@ -64,6 +65,7 @@ dependencies {
     implementation(libs.horologist.tiles)
     implementation(libs.watchface.complications.data.source.ktx)
     implementation(libs.calendar)
+    implementation(libs.listenablefuture)
     // Use to utilize standard components and layouts in your tiles
     implementation(libs.protolayout)
 
@@ -72,8 +74,6 @@ dependencies {
 
     // Use to include dynamic expressions in your tiles
     implementation(libs.protolayout.expression)
-
-    implementation(libs.guava)
 
     implementation(libs.gson)
 

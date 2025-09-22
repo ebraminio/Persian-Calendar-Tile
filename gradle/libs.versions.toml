@@ -1,25 +1,26 @@
 [versions]
 agp = "8.13.0"
 calendar = "1.3.0"
-gson = "2.10.1"
-guava = "31.0.1-android"
-org-jetbrains-kotlin-android = "1.9.10"
-play-services-wearable = "18.1.0"
+gson = "2.13.2"
+kotlin = "2.2.20"
+#noinspection NewerVersionAvailable
+listenablefuture = "1.0"
+play-services-wearable = "19.0.0"
 protolayout-expression = "1.3.0"
 protolayout-material3 = "1.3.0"
 protolayout = "1.3.0"
-compose-bom = "2024.05.00"
-tiles = "1.3.0"
-horologist-tiles = "0.1.8"
-tiles-renderer = "1.3.0"
-tiles-testing = "1.3.0"
+compose-bom = "2025.09.00"
+tiles = "1.5.0"
+horologist-tiles = "0.7.15"
+tiles-renderer = "1.5.0"
+tiles-testing = "1.5.0"
 watchface-complications-data-source-ktx = "1.2.1"
-kotest = "5.7.2"
+kotest = "6.0.3"
 
 [libraries]
 calendar = { module = "com.github.persian-calendar:calendar", version.ref = "calendar" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-guava = { module = "com.google.guava:guava", version.ref = "guava" }
+listenablefuture = { module = "com.google.guava:listenablefuture", version.ref = "listenablefuture" }
 play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "play-services-wearable" }
 protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout-expression" }
 protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version.ref = "protolayout-material3" }
@@ -39,7 +40,8 @@ kotest-runnerJUnit5 = { module = "io.kotest:kotest-runner-junit5", version.ref =
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+org-jetbrains-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [bundles]
 kotest = [
